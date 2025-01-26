@@ -16,7 +16,7 @@
 ##
 
 
-import logging
+import logging, json
 
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
@@ -31,7 +31,10 @@ logger = logging.getLogger(__name__)
 
 
 
-
+def load_config(file: str) -> dict:     # TODO: Is it a dict:
+    with open(file) as configfile:
+        config = json.load(configfile)
+        return config
 
 def read_token(file: str) -> str:
     with open(file) as tokenfile: 
@@ -46,8 +49,10 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 def main() -> None:
-    # Read Bot Token from File:
-    token = read_token("./vaultbot.token")
+
+    config = load_config("./config.json")
+    print("token: " + config["tokenfile"])
+    token = read_token(config["tokenfile"])
 
     # Start the bot.Create the Application and pass it your bot's token.
     application = Application.builder().token(token).build()
