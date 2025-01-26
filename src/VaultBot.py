@@ -1,4 +1,4 @@
-#!../env/venv/bin/python3.12
+#!../venv/bin/python3.12
 
 ##
 # file: VaultBot.py
@@ -16,21 +16,12 @@
 ##
 
 
-
-
-
 import logging
 
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
-# TODO: Improve Token Handling
-# TODO: Check in virtual envirnoment?
 
-def read_token(file: str) -> str:
-    with open(file) as tokenfile: 
-        token = tokenfile.read()
-        return token
 
 # Enable logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -39,6 +30,13 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
+
+
+
+def read_token(file: str) -> str:
+    with open(file) as tokenfile: 
+        token = tokenfile.read()
+        return token
 
 # Define a few command handlers. These usually take the two arguments update and context.
 
