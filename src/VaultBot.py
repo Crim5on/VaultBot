@@ -76,7 +76,7 @@ async def dict_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     if answer is not None:
         time.sleep(1)   # makes it more human
         #await update.message.reply_text(answer)    # replies to message directly
-    await context.bot.send_message(chat_id=update.message.chat_id, text="Hello")
+    await context.bot.send_message(chat_id=update.message.chat_id, text=answer)
 
 
 # command handler for greeting
@@ -112,3 +112,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
