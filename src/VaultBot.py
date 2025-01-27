@@ -16,11 +16,12 @@
 ##
 
 
-import logging, json
+import logging, json, time
+from typing import Optional
 
-from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
-
+from telegram import ForceReply, Update, ChatMember, ChatMemberUpdated
+from telegram.constants import ParseMode
+from telegram.ext import Application, ContextTypes, MessageHandler, filters, ChatMemberHandler
 
 
 # Enable logging
@@ -40,8 +41,6 @@ def read_token(file: str) -> str:
         token = tokenfile.read()
         return token
 
-
-
 def clean_word(word: str) -> str:
     clean_word = ''.join(filter(str.isalnum, word))       # remove non-alphanumeric chars
     clean_word = clean_word.lower()
@@ -56,15 +55,45 @@ def get_answer_from_keyword(dictionary: dict, sentence: str) -> str:
             return answer
     return None
 
+def extract_status_change(chat_member_update: ChatMemberUpdated) -> Optional[tuple[bool, bool]]:
+    status_change = chat_member_update.difference().get("status")
+    old_is_member, new_is_member = chat_member_update.difference().get("is_member", (None, None))
+    if status_change is None:
+        return None
+    old_status, new_status = status_change
+    was_member = old_status in [ ChatMember.MEMBER, ChatMember.OWNER, ChatMember.ADMINISTRATOR, 
+    ] or (old_status == ChatMember.RESTRICTED and old_is_member is True)
+    is_member = new_status in [ ChatMember.MEMBER, ChatMember.OWNER, ChatMember.ADMINISTRATOR,
+    ] or (new_status == ChatMember.RESTRICTED and new_is_member is True)
+    return was_member, is_member
 
 
-# command handler
+
+
+# command handler for dictionary
 async def dict_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     answer = get_answer_from_keyword(dictionary, update.message.text)
     if answer is not None:
-        await update.message.reply_text(answer)
+        time.sleep(1)   # makes it more human
+        #await update.message.reply_text(answer)    # replies to message directly
+    await context.bot.send_message(chat_id=update.message.chat_id, text="Hello")
 
 
+# command handler for greeting
+async def greet_chat_members(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    result = extract_status_change(update.chat_member)
+    if result is None:
+        return
+    was_member, is_member = result
+    member_name = update.chat_member.new_chat_member.user.mention_html()
+    if not was_member and is_member:
+        await update.effective_chat.send_message(
+            f"{member_name} is moving into the greatest Vault at COLIVE! Welcome :)", parse_mode=ParseMode.HTML,
+        )
+    elif was_member and not is_member:
+        await update.effective_chat.send_message(
+            f"{member_name} moved out of the greatest Vault at COLIVE :(", parse_mode=ParseMode.HTML,
+        )
 
 
 
@@ -77,6 +106,7 @@ def main() -> None:
 
     application = Application.builder().token(token).build()
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, dict_reply))
+    application.add_handler(ChatMemberHandler(greet_chat_members, ChatMemberHandler.CHAT_MEMBER))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
