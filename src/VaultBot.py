@@ -11,7 +11,7 @@
 #
 # Simple Telegram bot to enhance our flatshare's group chat.
 # Bot listens to certain keywords and replies with the according answer
-# specified in a json-dict.  
+# specified in a json dictionary.  
 #
 ##
 
@@ -42,19 +42,15 @@ def read_token(file: str) -> str:
 
 
 
-
-def extract_words(sentence: str) -> list:
-    words = sentence.split()
-    return words
-
 def clean_word(word: str) -> str:
     clean_word = ''.join(filter(str.isalnum, word))       # remove non-alphanumeric chars
     clean_word = clean_word.lower()
     return clean_word
 
 def get_answer_from_keyword(dictionary: dict, sentence: str) -> str:
-    words = extract_words(sentence)
-    for word in words:  # TODO: check words in sentence from the back.
+    words = sentence.split()
+    words = reversed(words)
+    for word in words:
         answer = dictionary.get(clean_word(word), None)
         if answer is not None:
             return answer
