@@ -16,3 +16,22 @@ chmod 755 setup.sh
 # run VaulBot:
 ./VaultBot.py
 ```
+
+## Configuration
+Specify the path to your token and dictionary in the config file (under```./src/config.json```). The dictionary is what makes VaultBot seem "socially intelligent". Think of a list of keywords and replies - be creative!
+```json
+{
+    "tokenfile" : "/path/to/mytoken.token",
+    "dictionary" : "/path/to/mydict.json"
+}
+```
+
+
+
+## In Action
+<p align="middle">
+  <img src="./img/screenshotChat2.png" width="225" hspace="10" />
+  <img src="./img/screenshotChat1.png" width="225" hspace="35" />
+  <img src="./img/screenshotChat3.png" width="225" hspace="10" />
+</p>
+
