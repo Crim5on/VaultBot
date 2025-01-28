@@ -30,8 +30,8 @@ Specify the path to your token and dictionary in the config file (under```./src/
 
 ## In Action
 <p align="middle">
-  <img src="./img/screenshotChat2.png" width="230" hspace="0" />
-  <img src="./img/screenshotChat1.png" width="230" hspace="45" />
-  <img src="./img/screenshotChat3.png" width="230" hspace="0" />
+  <img src="./img/screenshotChat2.png" width="235" hspace="25" />
+  <img src="./img/screenshotChat1.png" width="235" hspace="25" />
+  <img src="./img/screenshotChat3.png" width="235" hspace="25" />
 </p>
 
