@@ -28,7 +28,7 @@ Specify the path to your token and dictionary in the config file (under```./src/
 
 
 
-## In Action
+## Actionshots
 <p align="middle">
   <img src="./img/screenshotChat2.png" width="230" hspace="20" />
   <img src="./img/screenshotChat1.png" width="230" hspace="20" />
