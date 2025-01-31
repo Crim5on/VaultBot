@@ -1,4 +1,4 @@
-#!../venv/bin/python3.12
+#!../venv/bin/python3
 
 ##
 # file: VaultBot.py

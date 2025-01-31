@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ##
-# file: setup.sh
+# file: setupFedora.sh
 #
-# date: 2025-01-26
+# date: 2025-01-31
 # author: Sandro Schnetzer
 # contact: https://www.linkedin.com/in/sandroschnetzer/
 #
@@ -12,13 +12,21 @@
 #
 ##
 
-sudo apt install -y python3.12-venv
+
+sudo dnf upgrade
+
+sudo dnf install -y python3-virtualenv
 
 # create a new virtual environment:
-python3.12 -m venv ../venv
+python3 -m venv ../venv
 
 # install the libraries:
-../venv/bin/pip3.12 install python-telegram-bot --upgrade
+../venv/bin/pip3 install python-telegram-bot --upgrade
 
 # make VaultBot executable:
 chmod 755 ./VaultBot.py
+
+
+# clean up
+sudo dnf autoremove
+sudo dnf clean all
