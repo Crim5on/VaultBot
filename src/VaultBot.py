@@ -74,7 +74,7 @@ def extract_status_change(chat_member_update: ChatMemberUpdated) -> Optional[tup
 async def dict_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     answer = get_answer_from_keyword(dictionary, update.message.text)
     if answer is not None:
-        time.sleep(1)   # makes it more human
+        time.sleep(3)   # makes it more human
         #await update.message.reply_text(answer)    # replies to message directly
         await context.bot.send_message(chat_id=update.message.chat_id, text=answer)
 
