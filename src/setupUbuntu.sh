@@ -3,7 +3,7 @@
 ##
 # file: setupUbuntu.sh
 #
-# date: 2025-01-26
+# date: 2025-02-03
 # author: Sandro Schnetzer
 # contact: https://www.linkedin.com/in/sandroschnetzer/
 #
@@ -18,6 +18,7 @@ sudo apt update && sudo apt upgrade
 sudo apt install -y python3-venv
 
 # create a new virtual environment:
+rm -r ../venv 2> /dev/null
 python3 -m venv ../venv
 
 # install the libraries:
@@ -28,4 +29,4 @@ chmod 755 ./VaultBot.py
 
 
 # clean up
-apt autoremove
+sudo apt autoremove && sudo apt autoclean 

@@ -3,7 +3,7 @@
 ##
 # file: VaultBot.py
 #
-# date: 2025-01-27
+# date: 2025-02-05
 # author: Sandro Schnetzer
 # contact: https://www.linkedin.com/in/sandroschnetzer/
 # libraries: https://python-telegram-bot.org/
@@ -19,9 +19,12 @@
 import logging, json, time
 from typing import Optional
 
-from telegram import ForceReply, Update, ChatMember, ChatMemberUpdated
+from telegram import Update, ChatMember, ChatMemberUpdated
 from telegram.constants import ParseMode
 from telegram.ext import Application, ContextTypes, MessageHandler, filters, ChatMemberHandler
+
+# Own Dictionary:
+from bot_dictionary import bot_dictionary
 
 
 # Enable logging
@@ -29,6 +32,8 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
+
+## ----------------------------------------------------------------------------------------------------------------- ##
 
 
 def load_json(file: str) -> dict:
@@ -68,14 +73,14 @@ def extract_status_change(chat_member_update: ChatMemberUpdated) -> Optional[tup
     return was_member, is_member
 
 
+## ----------------------------------------------------------------------------------------------------------------- ##
 
 
 # command handler for dictionary
 async def dict_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    answer = get_answer_from_keyword(dictionary, update.message.text)
+    answer = get_answer_from_keyword(bot_dictionary, update.message.text)
     if answer is not None:
-        time.sleep(3)   # makes it more human
-        #await update.message.reply_text(answer)    # replies to message directly
+        time.sleep(3)   # makes it feel more natural
         await context.bot.send_message(chat_id=update.message.chat_id, text=answer)
 
 
@@ -88,26 +93,25 @@ async def greet_chat_members(update: Update, context: ContextTypes.DEFAULT_TYPE)
     member_name = update.chat_member.new_chat_member.user.mention_html()
     if not was_member and is_member:
         await update.effective_chat.send_message(
-            f"{member_name} is moving into the greatest Vault at COLIVE! Welcome :)", parse_mode=ParseMode.HTML,
+            f"{member_name} is joining our family! Welcome \U0001F600", parse_mode=ParseMode.HTML,
         )
     elif was_member and not is_member:
         await update.effective_chat.send_message(
-            f"{member_name} moved out of the greatest Vault at COLIVE :(", parse_mode=ParseMode.HTML,
+            f"{member_name} has left our family \U0001F622", parse_mode=ParseMode.HTML,
         )
 
 
+## ----------------------------------------------------------------------------------------------------------------- ##
 
 
 def main() -> None:
     config = load_json("./config.json")
     token = read_token(config["tokenfile"])
-    global dictionary
-    dictionary = load_json(config["dictionary"])    #TODO: pass through
-
     application = Application.builder().token(token).build()
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, dict_reply))
     application.add_handler(ChatMemberHandler(greet_chat_members, ChatMemberHandler.CHAT_MEMBER))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
+
 
 
 if __name__ == "__main__":

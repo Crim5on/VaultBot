@@ -1,4 +1,3 @@
 {
-    "tokenfile" : "/home/crim5on/.mytokens/vaultbot.token",
-    "dictionary" : "/home/crim5on/Repositories/mysources/Coding/Python/VaultBotSecrets/dict.json"
+    "tokenfile" : "/home/crim5on/.mytokens/vaultbot.token"
 }
