@@ -29,4 +29,5 @@ chmod 755 ./VaultBot.py
 
 
 # clean up
-sudo apt autoremove && sudo apt autoclean 
+sudo apt autoremove 
+sudo apt autoclean 

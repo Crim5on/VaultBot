@@ -18,6 +18,7 @@ sudo dnf upgrade
 sudo dnf install -y python3-virtualenv
 
 # create a new virtual environment:
+rm -r ../venv 2> /dev/null
 python3 -m venv ../venv
 
 # install the libraries:
