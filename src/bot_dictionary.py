@@ -44,8 +44,6 @@ bot_dictionary = {
     "share":"sharing is caring \U0001F970",
     "sharing":"sharing is caring \U0001F970",
     "caring":"sharing is caring \U0001F970",
-    "movie":"let's watch a movie!",
-    "film":"what film?",
     "kitchen":"Please clean after yourself before you leave the kitchen",
     "tea":"There is always time for tea!",
 }
